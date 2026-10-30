@@ -1,10 +1,19 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider, useAuth } from './context/AuthContext';
+import { useState } from 'react';
+
+// Pages Import
 import Home from './pages/Home';
 import Dashboard from './pages/Dashboard';
+
+// Portfolio Projects Import (Nayi Files)
+import NexusStore from './pages/NexusStore';
+import AuraLanding from './pages/AuraLanding';
+import FinDash from './pages/FinDash';
+
+// Components
 import SplashScreen from './components/SplashScreen';
-import { useState } from 'react';
 
 function ProtectedRoute({ children }) {
   const { currentUser } = useAuth();
@@ -21,6 +30,13 @@ function AppContent() {
       
       <Routes>
         <Route path="/" element={<Home />} />
+        
+        {/* Nayi Portfolio Projects ki Routes */}
+        <Route path="/project/nexus" element={<NexusStore />} />
+        <Route path="/project/aura" element={<AuraLanding />} />
+        <Route path="/project/findash" element={<FinDash />} />
+        
+        {/* Dashboard Route */}
         <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
       </Routes>
     </Router>
