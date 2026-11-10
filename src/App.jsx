@@ -5,14 +5,17 @@ import { useState } from 'react';
 
 // Pages Import
 import Home from './pages/Home';
+import Services from './pages/Services';
+import Portfolio from './pages/Portfolio';
+import Pricing from './pages/Pricing';
+import Contact from './pages/Contact';
 import Dashboard from './pages/Dashboard';
 
-// Portfolio Projects Import (Nayi Files)
+// Projects Import
 import NexusStore from './pages/NexusStore';
 import AuraLanding from './pages/AuraLanding';
 import FinDash from './pages/FinDash';
 
-// Components
 import SplashScreen from './components/SplashScreen';
 
 function ProtectedRoute({ children }) {
@@ -30,13 +33,17 @@ function AppContent() {
       
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/services" element={<Services />} />
+        <Route path="/portfolio" element={<Portfolio />} />
+        <Route path="/pricing" element={<Pricing />} />
+        <Route path="/contact" element={<Contact />} />
         
-        {/* Nayi Portfolio Projects ki Routes */}
+        {/* Projects */}
         <Route path="/project/nexus" element={<NexusStore />} />
         <Route path="/project/aura" element={<AuraLanding />} />
         <Route path="/project/findash" element={<FinDash />} />
         
-        {/* Dashboard Route */}
+        {/* Dashboard */}
         <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
       </Routes>
     </Router>
