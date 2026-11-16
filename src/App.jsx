@@ -2,6 +2,8 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { useState } from 'react';
+import Admin from './pages/Admin';
+
 
 // Pages Import
 import Home from './pages/Home';
@@ -45,6 +47,8 @@ function AppContent() {
         
         {/* Dashboard */}
         <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+        <Route path="/admin" element={<ProtectedRoute><Admin /></ProtectedRoute>} />
+
       </Routes>
     </Router>
   );

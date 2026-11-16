@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // <-- YEH IMPORT ZAROORI HAI
 import { auth } from '../firebase';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, updateProfile, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import toast from 'react-hot-toast';
@@ -6,6 +7,7 @@ import { FiX, FiEye, FiEyeOff } from 'react-icons/fi';
 import { FcGoogle } from 'react-icons/fc';
 
 export default function AuthModal({ isOpen, onClose }) {
+  const navigate = useNavigate(); // <-- Navigate initialize kiya
   const [isLogin, setIsLogin] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -26,9 +28,17 @@ export default function AuthModal({ isOpen, onClose }) {
 
     try {
       if (isLogin) {
-        await signInWithEmailAndPassword(auth, email, password);
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
         toast.success("Login successful!");
         onClose();
+        
+        // YAHAN ADMIN CHECK LAGAYA HAI
+        if (userCredential.user.email === "istechsolutions017@gmail.com") {
+          navigate('/admin');
+        } else {
+          navigate('/dashboard');
+        }
+
       } else {
         if (password !== confirmPassword) throw new Error("Passwords do not match");
         if (password.length < 6) throw new Error("Password must be at least 6 characters");
@@ -37,6 +47,7 @@ export default function AuthModal({ isOpen, onClose }) {
         await updateProfile(userCredential.user, { displayName: name });
         toast.success("Account created successfully!");
         onClose();
+        navigate('/dashboard'); // Naya account hamesha dashboard par jayega
       }
     } catch (error) {
       toast.error(error.message.replace("Firebase: ", ""));
@@ -50,9 +61,17 @@ export default function AuthModal({ isOpen, onClose }) {
     setGoogleLoading(true);
     const provider = new GoogleAuthProvider();
     try {
-      await signInWithPopup(auth, provider);
+      const result = await signInWithPopup(auth, provider);
       toast.success("Logged in with Google!");
       onClose();
+      
+      // YAHAN BHI ADMIN CHECK LAGAYA HAI
+      if (result.user.email === "istechsolutions017@gmail.com") {
+        navigate('/admin');
+      } else {
+        navigate('/dashboard');
+      }
+
     } catch (error) {
       toast.error(error.message.replace("Firebase: ", ""));
     } finally {
